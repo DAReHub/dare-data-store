@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+
+  dare-data-store:
+    build: .
+    env_file:
+      - .env
+    restart: always
+    ports:
+      - "8050:80"
+    volumes:
+      - .env:/env/.env
+      - ./dashboard/code/assets/:/assets/
+      - ./python_lib:/usr/local/lib/python3.9/site-packages/dash_data
+      - ./logs:/code/logs
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs/public.crt:/etc/ssl/certs/public.crt:ro
+      - ./certs/private.key:/etc/ssl/private/private.key:ro
+    depends_on:
+      - dare-data-store
+    restart: always
+
+  clamav:
+    image: clamav/clamav:latest
+    container_name: clamav
+    ports:
+      - "3310:3310"         # clamd TCP socket
+      - "7357:7357"         # freshclam stats (optional)
+    volumes:
+      - clamav_db:/var/lib/clamav   # persistent virus DB
+#      - clamav_socket:/var/run/clamd.socket
+    environment:
+      CLAMD_CONF_MaxFileSize: 2000M
+      CLAMD_CONF_MaxScanSize: 2000M
+      CLAMD_CONF_StreamMaxLength: 2000M
+      CLAMD_CONF_CommandReadTimeout: "300"
+#      CLAMD_CONF_ReadTimeout: "3600"
+    restart: always
+
+  freshclam:
+    image: clamav/clamav:latest
+    container_name: freshclam
+    entrypoint: [ "freshclam", "-d", "--verbose" ]
+    volumes:
+      - clamav_db:/var/lib/clamav
+
+volumes:
+  clamav_db:
+#  clamav_socket:
