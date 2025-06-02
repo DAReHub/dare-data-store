@@ -88,7 +88,7 @@ class Uploads(db.Model):
 
 
 class TaggedDeletes(db.Model):
-    __tablename__ = 'user_tagged_deletes'
+    __tablename__ = 'user_object_deletes'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
     insert_time = db.Column(db.DateTime, default=func.now(), nullable=False)
