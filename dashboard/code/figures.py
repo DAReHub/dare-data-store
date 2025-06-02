@@ -202,7 +202,8 @@ def deleteTable(df):
             ],
             hidden_columns=[
                 'status', 'deletion_time', 'model_domain', 'data_dict_uuid',
-                'gis', 'minio_filename', 'minio_bucket', 'description'
+                'minio_filename', 'minio_bucket', 'description', 'size', 'gis',
+                'filename_extension', 'clamav_scan'
             ],
             data=df.to_dict('records'),
             editable=False,
