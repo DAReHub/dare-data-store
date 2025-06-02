@@ -16,15 +16,26 @@ layout = html.Div([
             ], width=6),
             dbc.Col([
               html.Div([
-                dbc.Button(
-                  'Remove all filters',
-                  id='datadict-remove-filters',
-                  n_clicks=0,
-                  className='me-1',
-                  outline=True,
-                  color='primary',
-                  size='lg',
-                ),
+                dbc.ButtonGroup([
+                  dbc.Button(
+                    'Apply filters',
+                    id='datadict-apply-filters',
+                    n_clicks=0,
+                    className='me-1',
+                    outline=True,
+                    color='primary',
+                    size='lg',
+                  ),
+                  dbc.Button(
+                    'Remove filters',
+                    id='datadict-remove-filters',
+                    n_clicks=0,
+                    className='me-1',
+                    outline=True,
+                    color='primary',
+                    size='lg',
+                  ),
+                ]),
               ], style={'text-align': 'right'})
             ], width=6),
           ], justify='between'),
@@ -126,7 +137,11 @@ layout = html.Div([
           ]),
           html.Hr(),
           dbc.Row([
-            html.Div(id='data_dict_datatable'),
+            dcc.Loading([
+              html.Div(id='data_dict_datatable'),
+              ],
+              overlay_style={"visibility": "visible", "filter": "blur(2px)"},
+            )
           ]),
         ], className='selection box'),
       ], xs=12, sm=12, md=12, lg=6, xl=6),

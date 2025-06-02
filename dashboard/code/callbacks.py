@@ -398,24 +398,25 @@ def register_callbacks(app):
         Output('filter-datadict-modified_by', 'value'),
         Output('filter-datadict-gis', 'value'),
         Output('datadict-table', 'selected_rows'),
+        Output('datadict-apply-filters', 'n_clicks'),
         Input('datadict-remove-filters', 'n_clicks'),
         prevent_initial_call=True)
     def remove_datadict_filters(n):
-        return "", "", [], [], [], [], [], [], [], []
+        return "", "", [], [], [], [], [], [], [], [], 0
 
 
     @app.callback(
         Output('data_dict_datatable', 'children'),
-        Input('interval_pg', 'n_intervals'),
-        Input('filter-datadict-name', 'value'),
-        Input('filter-datadict-uuid', 'value'),
-        Input('filter-datadict-model_domain', 'value'),
-        Input('filter-datadict-filename_extensions', 'value'),
-        Input('filter-datadict-relation', 'value'),
-        Input('filter-datadict-produced_by', 'value'),
-        Input('filter-datadict-ingested_by', 'value'),
-        Input('filter-datadict-modified_by', 'value'),
-        Input('filter-datadict-gis', 'value'),
+        Input('datadict-apply-filters', 'n_clicks'),
+        State('filter-datadict-name', 'value'),
+        State('filter-datadict-uuid', 'value'),
+        State('filter-datadict-model_domain', 'value'),
+        State('filter-datadict-filename_extensions', 'value'),
+        State('filter-datadict-relation', 'value'),
+        State('filter-datadict-produced_by', 'value'),
+        State('filter-datadict-ingested_by', 'value'),
+        State('filter-datadict-modified_by', 'value'),
+        State('filter-datadict-gis', 'value'),
         State('csrf-store', 'data'),
     )
     @login_required
@@ -681,7 +682,7 @@ def register_callbacks(app):
                 f"upload_file exception, bucket={MODELS_BUCKET}, "
                 f"object={filename}, exception={e}"
             )
-            return "File not confirmed in database", "danger", False, None
+            return f"Upload of '{filename}' failed: Upload to database error", "danger", True, None
 
         try:
             minio_routes.check_file_exists(MODELS_BUCKET, minio_filename)
@@ -694,7 +695,7 @@ def register_callbacks(app):
                 f"check_file_exists exception, bucket: {MODELS_BUCKET}, "
                 f"object: {filename}, exception: {e}"
             )
-            return "File not confirmed in database", "danger", False, None
+            return f"Upload of '{filename}' failed: File not confirmed in database", "danger", True, None
 
         db.session.add(Objects(
             uuid=unique_id,
