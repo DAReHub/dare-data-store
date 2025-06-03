@@ -758,3 +758,12 @@ def register_callbacks(app):
         if extension == '.shp':
             extension = '.zip'
         return extension
+
+
+    @app.callback(
+        Output('help-modal', 'is_open'),
+        Input('help-button', 'n_clicks'),
+        prevent_initial_call=True
+    )
+    def show_help(n):
+        return True

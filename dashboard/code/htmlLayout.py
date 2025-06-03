@@ -21,6 +21,10 @@ def baseLayout():
         dbc.DropdownMenu(
           children=[
             dbc.DropdownMenuItem(
+              "Help",
+              id='help-button',
+            ),
+            dbc.DropdownMenuItem(
               "Logout",
               href="/logout",
               external_link=True

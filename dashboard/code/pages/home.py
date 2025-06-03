@@ -411,6 +411,49 @@ layout = html.Div([
       is_open=False,
       size='xl'
     ),
+    dbc.Modal([
+      dbc.ModalHeader(html.H2(
+          "Help"
+      ), close_button=True),
+      dbc.ModalBody(
+        html.Div(children=[
+          dbc.Row([
+            html.Pre(
+              children=
+"Contact (email or Teams): daniel.bell2@ncl.ac.uk\n\n"
+"For any questions or issues (e.g. access, use, downloading, uploading, deleting) "
+"please get in contact. Include as much information as possible, including: a "
+"description of your issue, Operating System, browser, file name, file type, "
+"file size, the file itself, error message etc.\n\n"
+"For technical issues you can also create an issue at:\n"
+"    https://github.com/DAReHub/dare-data-store/issues\n\n"
+"If you would like to contribute to the data store code you can clone and create "
+"pull requests at:\n"
+"    https://github.com/DAReHub/dare-data-store\n\n"
+"To expand our catalogue of data please send documentation/examples of files "
+"which would belong to the item. It would be helpful to include details such as: "
+"the model domain, a description, its relation to the model domain (i.e. input, "
+"output), the typical source and destination of the item, typical file extensions, "
+"and GIS info (if any).\n\n"
+"Notes:\n"
+"    - Upload file size limit: 2GB\n"
+"    - A file can only be deleted by the owner (the user who uploaded it), but "
+"can be downloaded by any user\n"
+"    - Only one file can be deleted at a time\n"
+"    - File copies are retained for a short time after a file is deleted"
+"\n\n:)",
+              style={'white-space': 'pre-wrap', 'fontSize': '14px'}
+            )
+          ]),
+        ])
+      ),
+    ],
+      id="help-modal",
+      centered=True,
+      is_open=False,
+      size='lg',
+      scrollable=True,
+    ),
     dbc.Toast(
       id="upload-alert",
       header='File Upload',
