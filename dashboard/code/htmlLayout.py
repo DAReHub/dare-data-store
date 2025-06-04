@@ -35,7 +35,12 @@ def baseLayout():
           label="More",
         ),
       ],
-      brand="DARe DATA STORE",
+      brand=[
+        html.Img(
+          src="/assets/DARe_logo_cropped_2.png",
+          style={"width": "50px", "margin-right": "3%", "margin-bottom": "1%"}),
+        "DARe DATA STORE"
+      ],
       brand_style={
         "color": "#f9f9f9",
         "font-size": "2em",
