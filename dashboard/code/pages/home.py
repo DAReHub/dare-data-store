@@ -450,7 +450,7 @@ layout = html.Div([
     ],
       id="help-modal",
       centered=True,
-      is_open=False,
+      is_open=True,
       size='lg',
       scrollable=True,
     ),
